@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import NewsItem from '../../Components/NewsItem/NewsItem'
-
-import newsImg from '../../assets/img/News-default.jpeg';
+import Spinner from '../../Components/Spinner/Spinner';
 
 export default class NewsComponent extends Component {
 
@@ -12,7 +11,7 @@ export default class NewsComponent extends Component {
     // Function To Fetch API
     topNewsHeadLine = async () => {
         const URI = `${this.url}?apiKey=${this.apiKey}&language=en&pageSize=${this.state.pageSize}&page=${this.state.page}`;
-        console.log(URI);
+        // console.log(URI);
 
         this.setState({
             loading: true,
@@ -24,18 +23,15 @@ export default class NewsComponent extends Component {
             });
 
             const resData = await response.json();
-            console.log(resData);
+            // console.log(resData);
 
             if (resData.status === "ok") {
                 this.setState({
                     articles: resData.articles,
                     totalResults: resData.totalResults,
+                    loading: false,
                 })
             }
-
-            this.setState({
-                loading: false,
-            });
         } catch (err) {
             this.setState({
                 loading: false,
@@ -79,19 +75,20 @@ export default class NewsComponent extends Component {
         }
     }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        // console.log(this);
+        
         this.state = {
             articles: [],
             page: 1,
-            pageSize: 20,
+            pageSize: props.pageSize,
             loading: false,
         }
     }
 
     componentDidMount() {
         this.topNewsHeadLine();
-
     }
 
     render() {
@@ -102,8 +99,9 @@ export default class NewsComponent extends Component {
                     <div className='fs-3 text-center my-3 fw-bolder'>
                         News Monster - Top News Headline
                     </div>
+                    {this.state.loading && <Spinner />}
                     <div className="row">
-                        {this.state.articles.map((article, index) => {
+                        {!this.state.loading && this.state.articles.map((article, index) => {
                             const { title, description, urlToImage, url } = article;
 
                             return (
@@ -111,7 +109,7 @@ export default class NewsComponent extends Component {
                                     <NewsItem
                                         title={(!title) ? "" : title.slice(0, 45)}
                                         description={(description === null) ? "" : description.slice(0, 88)}
-                                        urlToImage={(!urlToImage) ? newsImg : urlToImage}
+                                        urlToImage={urlToImage}
                                         url={url}
                                     />
                                 </div>
@@ -129,6 +127,7 @@ export default class NewsComponent extends Component {
                             {this.state.page}
                         </button>
                         <button type="button" className="btn btn-dark"
+                            disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / this.state.pageSize)}
                             onClick={this.handleNextClick}
                         >next &rarr;</button>
                     </div>
