@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import NewsItem from '../../Components/NewsItem/NewsItem'
 
+import newsImg from '../../assets/img/News-default.jpeg';
+
 export default class NewsComponent extends Component {
 
 
@@ -44,10 +46,15 @@ export default class NewsComponent extends Component {
             articles: [],
             loading: false,
         }
-        this.topNewsHeadLine();
     }
-
+    
+    componentDidMount(){
+        this.topNewsHeadLine();
+        
+    }
+    
     render() {
+        console.log(this.state.articles);
         return (
             <>
                 <div className='container mx-5 my-3'>
@@ -61,9 +68,9 @@ export default class NewsComponent extends Component {
                             return (
                                 <div className="col-md-4" key={index} >
                                     <NewsItem
-                                        title={title.slice(0,45)}
-                                        description={description.slice(0,88)}
-                                        urlToImage={urlToImage}
+                                        title={(!title)?"":title.slice(0,45)}
+                                        description={(description===null)?"":description.slice(0,88)}
+                                        urlToImage={(!urlToImage)?newsImg:urlToImage}
                                         url={url}
                                     />
                                 </div>
