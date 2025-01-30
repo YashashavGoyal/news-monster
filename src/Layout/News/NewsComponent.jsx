@@ -28,10 +28,7 @@ export default class NewsComponent_Using_Nav_Btns extends Component {
 
     // Function To Fetch API
     topNewsHeadLine = async () => {
-        const country = (this.props.country) ? this.props.country : "";
-        const category = (this.props.category) ? this.props.category : "";
-
-        const URI = `${this.url}?apiKey=${this.apiKey}&country=${country}&category=${category}&language=en&pageSize=${this.state.pageSize}&page=${this.state.page}`;
+        const URI = `${this.url}?apiKey=${this.apiKey}&country=${this.props.country}&category=${this.props.category}&language=en&pageSize=${this.state.pageSize}&page=${this.state.page}`;
 
         // console.log(URI);
 
@@ -68,56 +65,15 @@ export default class NewsComponent_Using_Nav_Btns extends Component {
         }
     }
 
-    handlePrevClick = () => {
-
-        this.setState({
-            page: --this.state.page,
-        });
-
-        this.topNewsHeadLine();
-    }
-
-    handleNextClick = () => {
-
-        const pageNum = this.state.page;
-        // console.log(pageNum+1);
-        // console.log(Math.ceil(this.state.totalResults / this.state.pageSize));
-
-        if (pageNum + 1 > Math.ceil(this.state.totalResults / this.state.pageSize)) {
-            return
-        }
-        else {
-            this.setState({
-                page: ++this.state.page,
-            });
-
-            this.topNewsHeadLine();
-
-            if (!this.state.articles.length) {
-                this.setState({
-                    page: --this.state.page,
-                });
-                this.topNewsHeadLine();
-            }
-        }
-    }
-
     // Function to Concat Articles
     fetchMoreData = async () => {
         const nextPage = this.state.page + 1;
         console.log(this.state.page);
         
         // Fetching
-        const country = (this.props.country) ? this.props.country : "";
-        const category = (this.props.category) ? this.props.category : "";
-
-        const URI = `${this.url}?apiKey=${this.apiKey}&country=${country}&category=${category}&language=en&pageSize=${this.state.pageSize}&page=${nextPage}`;
+        const URI = `${this.url}?apiKey=${this.apiKey}&country=${this.props.country}&category=${this.props.category}&language=en&pageSize=${this.state.pageSize}&page=${nextPage}`;
 
         // console.log(URI);
-
-        this.setState({
-            loading: true,
-        });
 
         try {
             const response = await fetch(URI, {
@@ -132,19 +88,13 @@ export default class NewsComponent_Using_Nav_Btns extends Component {
                     articles: this.state.articles.concat(resData.articles),
                     totalResults: resData.totalResults,
                     page: nextPage,
-                    loading: false,
                 })
             }
             else if (resData.status === 'error')
                 this.setState({
                     error: resData.message,
-                    loading: false,
                 })
         } catch (err) {
-            this.setState({
-                loading: false,
-            });
-
             alert("Internal Server Error");
         }
     }
@@ -158,7 +108,7 @@ export default class NewsComponent_Using_Nav_Btns extends Component {
             page: 1,
             pageSize: props.pageSize,
             totalResults: 0,
-            loading: false,
+            loading: true,
             error: ''
         }
     }
@@ -201,7 +151,7 @@ export default class NewsComponent_Using_Nav_Btns extends Component {
 
                 {this.state.error && <p>{this.state.error}</p>}
 
-                {/* {this.state.loading && <Spinner />} */}
+                {this.state.loading && <Spinner />}
 
                 <InfiniteScroll
                     dataLength={this.state.articles.length}
