@@ -9,6 +9,7 @@ import Navbar from './Components/Navbar/Navbar'
 import NewsComponent from './Layout/News/NewsComponent'
 
 export default class App extends Component {
+    pageSize = 20;
 
     render() {
         return (
@@ -17,25 +18,25 @@ export default class App extends Component {
                     <Navbar />
                     <Routes>
                         <Route path='/' element={
-                            <NewsComponent pageSize={20} country={''} category={''} />
+                            <NewsComponent pageSize={this.pageSize} country={''} category={''} />
                         } />
                         <Route path='/sports' element={
-                            <NewsComponent key={'sports'} pageSize={20} country={''} category={'sports'} />
+                            <NewsComponent key={'sports'} pageSize={this.pageSize} country={''} category={'sports'} />
                         } />
                         <Route path='/science' element={
-                            <NewsComponent key={'science'} pageSize={20} country={''} category={'science'} />
+                            <NewsComponent key={'science'} pageSize={this.pageSize} country={''} category={'science'} />
                         } />
                         <Route path='/business' element={
-                            <NewsComponent key={'business'} pageSize={20} country={''} category={'business'} />
+                            <NewsComponent key={'business'} pageSize={this.pageSize} country={''} category={'business'} />
                         } />
                         <Route path='/technology' element={
-                            <NewsComponent key={'technology'} pageSize={20} country={''} category={'technology'} />
+                            <NewsComponent key={'technology'} pageSize={this.pageSize} country={''} category={'technology'} />
                         } />
                         <Route path='/health' element={
-                            <NewsComponent key={'health'} pageSize={20} country={''} category={'health'} />
+                            <NewsComponent key={'health'} pageSize={this.pageSize} country={''} category={'health'} />
                         } />
                         <Route path='/entertainment' element={
-                            <NewsComponent key={'entertainment'} pageSize={20} country={''} category={'entertainment'} />
+                            <NewsComponent key={'entertainment'} pageSize={this.pageSize} country={''} category={'entertainment'} />
                         } />
                     </Routes>
                 </Router>

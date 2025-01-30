@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import NewsItem from '../../Components/NewsItem/NewsItem'
 import Spinner from '../../Components/Spinner/Spinner';
 
+import articlesJson from '../../../sample.json';
+
 export default class NewsComponent extends Component {
 
     static defaultProps = {
@@ -18,7 +20,8 @@ export default class NewsComponent extends Component {
         category: PropTypes.string,
     }
 
-    apiKey = '32ef4db84abf40de9525a1616da0c9c3';
+    apiKey = '';
+    // apiKey = '32ef4db84abf40de9525a1616da0c9c3';
     url = 'https://newsapi.org/v2/top-headlines'; // For Top Heading
 
     // Function To Fetch API
@@ -40,7 +43,7 @@ export default class NewsComponent extends Component {
             });
 
             const resData = await response.json();
-            console.log(resData);
+            // console.log(resData);
 
             if (resData.status === "ok") {
                 this.setState({
@@ -102,7 +105,7 @@ export default class NewsComponent extends Component {
         // console.log(this);
 
         this.state = {
-            articles: [],
+            articles: [] ,
             page: 1,
             pageSize: props.pageSize,
             loading: false,
@@ -116,6 +119,13 @@ export default class NewsComponent extends Component {
 
     render() {
         // console.log(this.state.articles);
+        // console.log(articlesJson);
+
+        // For Development
+        if (!this.state.articles.length) {
+            this.state.articles = articlesJson.articles;
+        }
+
         return (
             <>
                 <div className='container my-3'>
@@ -126,7 +136,7 @@ export default class NewsComponent extends Component {
                     {this.state.loading && <Spinner />}
                     <div className="row">
                         {!this.state.loading && this.state.articles.map((article, index) => {
-                            const { title, description, author, publishedAt, urlToImage, url } = article;
+                            const { title, description, author, publishedAt, urlToImage, url, source } = article;
 
                             return (
                                 <div className="col-md-4" key={index} >
@@ -137,6 +147,7 @@ export default class NewsComponent extends Component {
                                         publishedAt={publishedAt}
                                         urlToImage={urlToImage}
                                         url={url}
+                                        source={source}
                                     />
                                 </div>
                             )
