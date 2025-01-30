@@ -1,16 +1,33 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import NewsItem from '../../Components/NewsItem/NewsItem'
 import Spinner from '../../Components/Spinner/Spinner';
 
 export default class NewsComponent extends Component {
 
+    static defaultProps = {
+        pageSize: 20,
+        country: '',
+        category: 'general',
+    }
+
+    static propTypes = {
+        pageSize: PropTypes.number,
+        country: PropTypes.string,
+        category: PropTypes.string,
+    }
 
     apiKey = '32ef4db84abf40de9525a1616da0c9c3';
     url = 'https://newsapi.org/v2/top-headlines'; // For Top Heading
 
     // Function To Fetch API
     topNewsHeadLine = async () => {
-        const URI = `${this.url}?apiKey=${this.apiKey}&language=en&pageSize=${this.state.pageSize}&page=${this.state.page}`;
+        const country = (this.props.country) ? this.props.country : "";
+        const category = (this.props.category) ? this.props.category : "";
+
+        const URI = `${this.url}?apiKey=${this.apiKey}&country=${country}&category=${category}&language=en&pageSize=${this.state.pageSize}&page=${this.state.page}`;
+
         // console.log(URI);
 
         this.setState({
@@ -78,7 +95,7 @@ export default class NewsComponent extends Component {
     constructor(props) {
         super(props);
         // console.log(this);
-        
+
         this.state = {
             articles: [],
             page: 1,
