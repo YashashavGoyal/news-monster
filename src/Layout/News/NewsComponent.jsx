@@ -40,7 +40,7 @@ export default class NewsComponent extends Component {
             });
 
             const resData = await response.json();
-            // console.log(resData);
+            console.log(resData);
 
             if (resData.status === "ok") {
                 this.setState({
@@ -49,6 +49,11 @@ export default class NewsComponent extends Component {
                     loading: false,
                 })
             }
+            else if (resData.status === 'error')
+                this.setState({
+                    error: resData.message,
+                    loading: false,
+                })
         } catch (err) {
             this.setState({
                 loading: false,
@@ -101,6 +106,7 @@ export default class NewsComponent extends Component {
             page: 1,
             pageSize: props.pageSize,
             loading: false,
+            error: ''
         }
     }
 
@@ -116,16 +122,19 @@ export default class NewsComponent extends Component {
                     <div className='fs-3 text-center my-3 fw-bolder'>
                         News Monster - Top News Headline
                     </div>
+                    {this.state.error && <p>{this.state.error}</p>}
                     {this.state.loading && <Spinner />}
                     <div className="row">
                         {!this.state.loading && this.state.articles.map((article, index) => {
-                            const { title, description, urlToImage, url } = article;
+                            const { title, description, author, publishedAt, urlToImage, url } = article;
 
                             return (
                                 <div className="col-md-4" key={index} >
                                     <NewsItem
                                         title={(!title) ? "" : title.slice(0, 45)}
                                         description={(description === null) ? "" : description.slice(0, 88)}
+                                        author={author}
+                                        publishedAt={publishedAt}
                                         urlToImage={urlToImage}
                                         url={url}
                                     />
