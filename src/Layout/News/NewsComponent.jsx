@@ -115,6 +115,14 @@ export default class NewsComponent extends Component {
 
     componentDidMount() {
         this.topNewsHeadLine();
+
+        const category = this.props.category.slice(0,1).toUpperCase() + this.props.category.slice(1);
+        if (this.props.category === '' || this.props.category === null) {
+            document.title = "News Monster - Daily News Updates";
+        }
+        else {
+            document.title = `News Monster - ${category} Updates`;
+        }
     }
 
     render() {
@@ -131,6 +139,9 @@ export default class NewsComponent extends Component {
                 <div className='container my-3'>
                     <div className='fs-3 text-center my-3 fw-bolder'>
                         News Monster - Top News Headline
+                        {
+                        this.props.category && <> on {this.props.category.slice(0,1).toUpperCase() + this.props.category.slice(1)}</>
+                        }
                     </div>
                     {this.state.error && <p>{this.state.error}</p>}
                     {this.state.loading && <Spinner />}
