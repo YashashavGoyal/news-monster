@@ -8,7 +8,7 @@ import Spinner from '../../Components/Spinner/Spinner';
 // Dumy Data
 // import articlesJson from '../../../sample.json';
 
-export default class NewsComponent extends Component {
+export default class NewsComponent_Using_Spinner extends Component {
 
     static defaultProps = {
         pageSize: 20,
@@ -22,29 +22,27 @@ export default class NewsComponent extends Component {
         category: PropTypes.string,
     }
 
-    apiKey = ''; // For Development
-    // apiKey = '32ef4db84abf40de9525a1616da0c9c3';
+    // apiKey = ''; // For Development
+    apiKey = '32ef4db84abf40de9525a1616da0c9c3';
     url = 'https://newsapi.org/v2/top-headlines'; // For Top Heading
 
     // Function To Fetch API
     topNewsHeadLine = async () => {
-        this.props.setProgress(10);
         const URI = `${this.url}?apiKey=${this.apiKey}&country=${this.props.country}&category=${this.props.category}&language=en&pageSize=${this.state.pageSize}&page=${this.state.page}`;
-        
+
         // console.log(URI);
-        
+
         this.setState({
             loading: true,
         });
-        
+
         try {
             const response = await fetch(URI, {
                 method: 'GET',
             });
-            
+
             const resData = await response.json();
             // console.log({ page: this.state.page, resData });
-            this.props.setProgress(60);
 
             if (resData.status === "ok") {
                 this.setState({
@@ -57,8 +55,7 @@ export default class NewsComponent extends Component {
                 this.setState({
                     error: resData.message,
                     loading: false,
-                });
-            this.props.setProgress(100);
+                })
         } catch (err) {
             this.setState({
                 loading: false,
@@ -72,7 +69,7 @@ export default class NewsComponent extends Component {
     fetchMoreData = async () => {
         const nextPage = this.state.page + 1;
         // console.log(this.state.page);
-
+        
         // Fetching
         const URI = `${this.url}?apiKey=${this.apiKey}&country=${this.props.country}&category=${this.props.category}&language=en&pageSize=${this.state.pageSize}&page=${nextPage}`;
 
