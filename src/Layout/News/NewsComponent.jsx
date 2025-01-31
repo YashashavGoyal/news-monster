@@ -22,8 +22,8 @@ export default class NewsComponent extends Component {
         category: PropTypes.string,
     }
 
-    apiKey = ''; // For Development
-    // apiKey = '32ef4db84abf40de9525a1616da0c9c3';
+    // apiKey = ''; // For Development
+    apiKey = import.meta.env.VITE_NEWS_API;
     url = 'https://newsapi.org/v2/top-headlines'; // For Top Heading
 
     // Function To Fetch API
