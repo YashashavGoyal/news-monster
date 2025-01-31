@@ -138,12 +138,16 @@ export default class NewsComponent extends Component {
         return (
             <>
 
-                <div className='fs-3 text-center my-3 fw-bolder'>
+                <h1 className='fs-3 text-center my-3 fw-bolder'
+                style={{
+                    marginTop: '75px',
+                }}
+                >
                     News Monster - Top News Headline
                     {
                         this.props.category && <> on {this.props.category.slice(0, 1).toUpperCase() + this.props.category.slice(1)}</>
                     }
-                </div>
+                </h1>
 
                 {this.state.error && <p>{this.state.error}</p>}
 
