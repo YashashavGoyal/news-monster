@@ -21,7 +21,6 @@ export default class NewsComponent_Using_Nav_Btns extends Component {
     }
 
     apiKey = '';
-    // apiKey = '32ef4db84abf40de9525a1616da0c9c3';
     url = 'https://newsapi.org/v2/top-headlines'; // For Top Heading
 
     // Function To Fetch API
